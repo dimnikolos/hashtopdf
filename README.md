@@ -20,4 +20,8 @@ To PDF είναι έτοιμο για υπογραφή
 2. HASH (κλικ) και δημιουργείται το ζητούμενο PDF με το hashcode και όνομα το αρχικό όνομα με \_hash.pdf στο τέλος
 To PDF είναι έτοιμο για υπογραφή
 
-Μπορείτε να το δουλέψετε σε Python και να το παραμετροποιήσετε, ή να πάρετε το εκτελέσιμο (για Windows) και να το χρησιμοποιήσετε όπως είναι.
+Μπορείτε να πάρετε το εκτελέσιμο (για Windows) και να το χρησιμοποιήσετε όπως είναι ή να χρησιμοποιήσετε το [Python](https://raw.githubusercontent.com/dimnikolos/hashtopdf/main/hashtopdf.py) αρχείο (αν χρησιμοποιείτε Linux).
+
+#[Κατεβάστε το εργαλείο](https://github.com/dimnikolos/hashtopdf/releases/download/v1/hashtopdf.exe)
+
+
