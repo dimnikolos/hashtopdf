@@ -5,6 +5,11 @@ from os import path
 import hashlib
 import fpdf
 import threading
+try:
+    from tkinterdnd2 import DND_FILES, TkinterDnD
+    _DND = True
+except ImportError:
+    _DND = False
 
 # ── Colour palette ────────────────────────────────────────────────────────────
 BG       = "#1e1e2e"   # main background
@@ -18,11 +23,15 @@ ERROR    = "#f38ba8"   # red
 RADIUS   = 8
 
 # ── Root window ───────────────────────────────────────────────────────────────
-root = tk.Tk()
-root.title("DXF Hash → PDF")
+root = TkinterDnD.Tk() if _DND else tk.Tk()
+root.title("DXF → Hash PDF")
 root.resizable(False, False)
 root.geometry("480x320")
 root.configure(bg=BG)
+try:
+    root.iconbitmap(path.join(path.dirname(path.abspath(__file__)), "icon.ico"))
+except Exception:
+    pass
 
 # ── ttk style ─────────────────────────────────────────────────────────────────
 style = ttk.Style(root)
@@ -67,22 +76,51 @@ style.configure("Accent.Horizontal.TProgressbar",
 
 # ── State ──────────────────────────────────────────────────────────────────────
 thefile = ""
+DROP_NORMAL = BG2
+DROP_HOVER  = ACCENT
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
-def select_file():
+def _load_file(filename):
+    """Common handler: update UI after a file is chosen (dialog or DnD)."""
     global thefile
+    thefile = filename
+    short = path.basename(filename)
+    file_label.config(text=f"📄  {short}")
+    hash_btn.config(state="normal")
+    set_status("Αρχείο επιλέχθηκε — πατήστε «Δημιουργία PDF»", FG_DIM)
+    progress["value"] = 0
+
+def select_file():
     filename = fd.askopenfilename(
         title="Επιλογή αρχείου",
         initialdir="/",
         filetypes=[("DXF files", "*.dxf"), ("All files", "*.*")]
     )
     if filename:
-        thefile = filename
-        short = path.basename(filename)
-        file_label.config(text=f"📄  {short}")
-        hash_btn.config(state="normal")
-        set_status("Αρχείο επιλέχθηκε — πατήστε «Δημιουργία PDF»", FG_DIM)
-        progress["value"] = 0
+        _load_file(filename)
+
+# ── Drag-and-drop handlers ─────────────────────────────────────────────────────
+def _on_drop(event):
+    """Called when a file is dropped onto the card."""
+    _on_drag_leave(event)          # restore background
+    raw = event.data.strip()
+    # tkinterdnd2 wraps paths with spaces in curly braces
+    if raw.startswith("{") and raw.endswith("}"):
+        raw = raw[1:-1]
+    # take only the first file if multiple are dropped
+    filepath = raw.split("} {")[0] if "} {" in raw else raw
+    if path.isfile(filepath):
+        _load_file(filepath)
+    else:
+        set_status("✗  Δεν αναγνωρίστηκε το αρχείο", ERROR)
+
+def _on_drag_enter(event):
+    card.configure(style="DropHover.TFrame")
+    file_label.config(foreground=ACCENT2)
+
+def _on_drag_leave(event):
+    card.configure(style="Card.TFrame")
+    file_label.config(foreground=FG)
 
 def set_status(msg, colour=FG_DIM):
     status_label.config(text=msg, foreground=colour)
@@ -102,11 +140,10 @@ def _do_hash():
                 root.after(0, lambda v=pct: progress.__setitem__("value", v))
 
         hashtext = sha512.hexdigest()
-        pdf = fpdf.FPDF(format="letter")
-        pdf.add_page()
-        pdf.set_font("Arial", size=11)
-        pdf.set_text_color(30, 30, 50)
-        pdf.multi_cell(0, 8, txt=f"SHA-512\n\n{hashtext}", align="L")
+        pdf = fpdf.FPDF(format='A4') #pdf format
+        pdf.add_page() #create new page
+        pdf.set_font("Arial", size=12) # font and textsize
+        pdf.multi_cell(200, 10, txt=hashtext, align="L")
         outfile = thefile + "_hash.pdf"
         pdf.output(outfile)
 
@@ -145,13 +182,26 @@ ttk.Button(header, text="About", style="Ghost.TButton",
 sep = tk.Frame(root, bg=BG2, height=1)
 sep.pack(fill="x", padx=20, pady=4)
 
+# Extra style for drag-hover state
+style.configure("DropHover.TFrame", background=ACCENT)
+style.configure("DropHover.File.TLabel", background=ACCENT, foreground="#ffffff",
+                font=("Segoe UI", 9), padding=(8, 6))
+
 # File card
 card = ttk.Frame(root, style="Card.TFrame", padding=12)
 card.pack(fill="x", padx=20, pady=8)
 
-file_label = ttk.Label(card, text="📂  Κανένα αρχείο επιλεγμένο",
+file_label = ttk.Label(card, text="📂  Σύρε αρχείο εδώ ή επίλεξε με το κουμπί παρακάτω",
                         style="File.TLabel")
 file_label.pack(fill="x")
+
+# Register drag-and-drop on the card and label
+if _DND:
+    for widget in (card, file_label):
+        widget.drop_target_register(DND_FILES)
+        widget.dnd_bind("<<Drop>>",       _on_drop)
+        widget.dnd_bind("<<DragEnter>>",  _on_drag_enter)
+        widget.dnd_bind("<<DragLeave>>",  _on_drag_leave)
 
 # Buttons row
 btn_row = ttk.Frame(root, style="TFrame")
