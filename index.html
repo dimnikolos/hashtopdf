@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DXF Hash → PDF</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load jsPDF from CDN for generating the PDF client-side -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">DXF Hash → PDF</h1>
+            <button class="btn-ghost about-btn" id="aboutBtn">About</button>
+        </div>
+        
+        <hr class="separator">
+        
+        <!-- Dropzone Card -->
+        <div class="card" id="dropzone">
+            <span class="file-label" id="fileLabel">📂 Σύρε αρχείο εδώ ή επίλεξε με το κουμπί παρακάτω</span>
+            <input type="file" id="fileInput" accept=".dxf,*/*" style="display: none;">
+        </div>
+        
+        <!-- Buttons Row -->
+        <div class="btn-row">
+            <button class="btn-ghost" id="openBtn">Επιλογή αρχείου</button>
+            <button class="btn-accent" id="hashBtn" disabled>Δημιουργία PDF</button>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <!-- Status Label -->
+        <div class="status-label" id="statusLabel">Επιλέξτε ένα αρχείο DXF για να ξεκινήσετε.</div>
+    </div>
+    
+    <!-- Load main logic -->
+    <script src="app.js"></script>
+</body>
+</html>

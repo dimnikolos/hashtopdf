@@ -1,0 +1,148 @@
+:root {
+    --bg: #1e1e2e;
+    --bg2: #2a2a3e;
+    --accent: #7c6af7;
+    --accent2: #a89cfa;
+    --accent-pressed: #5a4ed4;
+    --fg: #cdd6f4;
+    --fg-dim: #6c7086;
+    --success: #a6e3a1;
+    --error: #f38ba8;
+    --radius: 8px;
+    --font-stack: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-stack);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 480px;
+    box-sizing: border-box;
+    padding: 20px 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 6px;
+}
+
+.title {
+    margin: 0;
+    font-size: 19px; /* roughly matches font 13 bold in tkinter */
+    font-weight: bold;
+}
+
+.separator {
+    border: none;
+    height: 1px;
+    background-color: var(--bg2);
+    margin: 4px 20px;
+}
+
+.card {
+    background-color: var(--bg2);
+    border-radius: var(--radius);
+    padding: 32px 12px;
+    margin: 12px 20px;
+    text-align: center;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    border: 2px dashed transparent;
+}
+
+.card.drag-hover {
+    background-color: var(--accent);
+}
+
+.card.drag-hover .file-label {
+    color: #ffffff;
+}
+
+.file-label {
+    font-size: 14px;
+    color: var(--fg);
+    pointer-events: none;
+}
+
+.btn-row {
+    display: flex;
+    padding: 4px 20px 0;
+    gap: 8px;
+}
+
+button {
+    font-family: var(--font-stack);
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    outline: none;
+}
+
+.btn-ghost {
+    background-color: var(--bg2);
+    color: var(--fg);
+}
+
+.btn-ghost:hover {
+    background-color: #353550;
+}
+
+.btn-ghost:active {
+    background-color: var(--bg2);
+}
+
+.btn-accent {
+    background-color: var(--accent);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.btn-accent:hover:not(:disabled) {
+    background-color: var(--accent2);
+}
+
+.btn-accent:active:not(:disabled) {
+    background-color: var(--accent-pressed);
+}
+
+.btn-accent:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.progress-bar {
+    height: 5px;
+    background-color: var(--bg2);
+    margin: 16px 20px 4px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.status-label {
+    font-size: 13px;
+    color: var(--fg-dim);
+    padding: 0 20px;
+    margin-top: 10px;
+}
