@@ -40,7 +40,8 @@ body {
 
 .title {
     margin: 0;
-    font-size: 19px; /* roughly matches font 13 bold in tkinter */
+    font-size: 19px;
+    /* roughly matches font 13 bold in tkinter */
     font-weight: bold;
 }
 
@@ -145,4 +146,28 @@ button {
     color: var(--fg-dim);
     padding: 0 20px;
     margin-top: 10px;
+}
+
+#info {
+    display: block;
+    font-size: 13px;
+    color: var(--fg-dim);
+    padding: 0 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#windowsversion {
+    display: block;
+    font-size: 13px;
+    color: var(--fg-dim);
+    padding: 0 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    margin: 10px 0px 0px 0px;
 }

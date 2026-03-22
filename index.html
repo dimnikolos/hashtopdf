@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="el">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <!-- Load jsPDF from CDN for generating the PDF client-side -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header -->
@@ -15,31 +17,44 @@
             <h1 class="title">DXF Hash → PDF</h1>
             <button class="btn-ghost about-btn" id="aboutBtn">About</button>
         </div>
-        
+
         <hr class="separator">
-        
+
         <!-- Dropzone Card -->
         <div class="card" id="dropzone">
             <span class="file-label" id="fileLabel">📂 Σύρε αρχείο εδώ ή επίλεξε με το κουμπί παρακάτω</span>
             <input type="file" id="fileInput" accept=".dxf,*/*" style="display: none;">
         </div>
-        
+
         <!-- Buttons Row -->
         <div class="btn-row">
             <button class="btn-ghost" id="openBtn">Επιλογή αρχείου</button>
             <button class="btn-accent" id="hashBtn" disabled>Δημιουργία PDF</button>
         </div>
-        
+
         <!-- Progress Bar -->
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
         </div>
-        
+
         <!-- Status Label -->
         <div class="status-label" id="statusLabel">Επιλέξτε ένα αρχείο DXF για να ξεκινήσετε.</div>
+        <div id="counterContainer" class="counter-label" style="display: none;">Μετατροπές συνολικά: <span
+                id="conversionCount">...</span></div>
+        <div id="info">
+            Το εργαλείο αυτό δεν ανεβάζει τα αρχεία σας σε κανέναν server.
+            Όλη η επεξεργασία γίνεται τοπικά στον browser σας.
+            <br>
+            <a href="https://github.com/dimnikolos/hashtopdf"><img
+                    src="https://raw.githubusercontent.com/gauravghongde/social-icons/refs/heads/master/PNG/Black/Github_black.png"
+                    alt="Github" class="icon"></a>
+            <a href="https://www.linkedin.com/in/dimitris-nikolos-38039b225/"><img
+                    src="https://raw.githubusercontent.com/gauravghongde/social-icons/refs/heads/master/PNG/Black/LinkedIN_black.png"
+                    alt="Linkedin" class="icon"></a>
+        </div>
     </div>
-    
     <!-- Load main logic -->
     <script src="app.js"></script>
 </body>
+
 </html>
